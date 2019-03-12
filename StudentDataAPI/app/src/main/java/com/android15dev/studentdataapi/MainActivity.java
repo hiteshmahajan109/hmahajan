@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -78,9 +79,24 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         String address = editTextAddress.getText().toString();
         String phone = editTextPhone.getText().toString();
 
-        if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(course) ||
-                TextUtils.isEmpty(address) || TextUtils.isEmpty(phone) || dob.equals(getString(R.string.dob))) {
-            Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show();
+        if (TextUtils.isEmpty(firstName)) {
+            showToast("Please enter first name");
+        } else if (!checkNumberExist(firstName)) {
+            showToast("Please enter valid first name");
+        } else if (TextUtils.isEmpty(lastName)) {
+            showToast("Please enter last name");
+        } else if (!checkNumberExist(lastName)) {
+            showToast("Please enter valid last name");
+        } else if (TextUtils.isEmpty(course)) {
+            showToast("Please enter course");
+        } else if (!checkNumberExist(course)) {
+            showToast("Please enter valid course");
+        } else if (TextUtils.isEmpty(address)) {
+            showToast("Please enter address");
+        } else if (TextUtils.isEmpty(phone)) {
+            showToast("Please enter phone number");
+        } else if (dob.equals(getString(R.string.dob))) {
+            showToast("Please select valid date of birth");
         } else {
             hideKeyboard();
             progressBar.setVisibility(View.VISIBLE);
@@ -91,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             progressBar.setVisibility(View.GONE);
                             if (response.code() == 200) {
-                                Toast.makeText(MainActivity.this, "User registered Successfully", Toast.LENGTH_LONG).show();
+                                showToast("User registered Successfully");
                                 clear();
                             } else {
-                                Toast.makeText(MainActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                                showToast("Something went wrong. Please try again later");
                             }
                         }
 
@@ -102,10 +118,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             progressBar.setVisibility(View.GONE);
                             t.printStackTrace();
-                            Toast.makeText(MainActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                            showToast("Something went wrong. Please try again later");
                         }
                     });
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void clear() {
@@ -134,5 +154,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         textViewDOB.setText(sdf.format(cal.getTime()));
+    }
+
+    private boolean checkNumberExist(String data) {
+        String regex = "(.)*(\\d)(.)*";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(data).matches();
     }
 }
