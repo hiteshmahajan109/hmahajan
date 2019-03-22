@@ -81,15 +81,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         if (TextUtils.isEmpty(firstName)) {
             showToast("Please enter first name");
-        } else if (!checkNumberExist(firstName)) {
+        } else if (checkNumberExist(firstName)) {
             showToast("Please enter valid first name");
         } else if (TextUtils.isEmpty(lastName)) {
             showToast("Please enter last name");
-        } else if (!checkNumberExist(lastName)) {
+        } else if (checkNumberExist(lastName)) {
             showToast("Please enter valid last name");
         } else if (TextUtils.isEmpty(course)) {
             showToast("Please enter course");
-        } else if (!checkNumberExist(course)) {
+        } else if (checkNumberExist(course)) {
             showToast("Please enter valid course");
         } else if (TextUtils.isEmpty(address)) {
             showToast("Please enter address");
