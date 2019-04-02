@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         textViewDOB.setText(sdf.format(cal.getTime()));
     }
 
